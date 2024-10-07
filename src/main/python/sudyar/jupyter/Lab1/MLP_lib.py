@@ -133,11 +133,23 @@ class MLP:
   def _init_biases(self, arch):
     return [rng.random((arch[i+1],1))*2-1 for i in range(self.depth)]
 
+  def save_weight(self, filename):
+    np.save(filename+'_W', self.W)
+    np.save(filename+'_b', self.b)
+
   def set_weights(self, new_W):
     self.W = new_W
 
+  def load_weights(self, filename):
+    new_W = np.load(filename + '_W.npy', allow_pickle=True)
+    self.set_weights(new_W)
+
   def set_biases(self, new_b):
     self.b = new_b
+
+  def load_biases(self, filename):
+    new_b = np.load(filename + '_b.npy', allow_pickle=True)
+    self.set_biases(new_b)
 
   def compute_loss(self, X, y):
     # X[l][in]
