@@ -11,7 +11,7 @@ $h_{t}=o_{t}*\tanh(C_{t})$
 
 $o_{t}= \sigma([x_{t}, h_{t-1}]\times W_{o} + b_{o})$
 
-$C_{t}=f_{t}*C_{t-1}+i_{t}*\tilde{C_t}$
+$C_{t} = f_{t} * C_{t-1} + i_{t} * \tilde{C_t}$
 
  $i_ {t} = \sigma ( [x_{t}, h_{t-1}]\times W_{o} + b_ {i} )$
  
@@ -32,19 +32,25 @@ $$
 ---
 ### Backprop
 Градиент скрытого состояния:
+
     $h_t = \frac{\partial \text{Loss}}{\partial h_t}​$
 
 
-Градиент выходных ворот:
-    $\delta o_t = \delta h_t * \tanh(C_t) * \sigma'(o_t)$
-Градиент состояния ячейки:
-    $C_t = \delta h_t * o_t * \tanh'(C_t) + \delta C_{t+1} * f_{t+1}​$
-Градиент входных ворота:
-    $\delta i_t = \delta C_t * \tilde{C_t} * \sigma'(i_t)$
-Забывающее ворота:
-    $\delta f_t = \delta C_t * C_{t-1} * \sigma'(f_t)$
-Кандидат состояния:
-    $\delta \tilde{C_t} = \delta C_t * i_t * \tanh'(\tilde{C_t})$
+- Градиент выходных ворот:
+
+	$\delta o_t = \delta h_t * \tanh(C_t) * \sigma'(o_t)$
+- Градиент состояния ячейки:
+
+	$C_t = \delta h_t * o_t * \tanh'(C_t) + \delta C_{t+1} * f_{t+1}​$
+- Градиент входных ворота:
+
+	$\delta i_t = \delta C_t * \tilde{C_t} * \sigma'(i_t)$
+- Забывающее ворота:
+
+	$\delta f_t = \delta C_t * C_{t-1} * \sigma'(f_t)$
+- Кандидат состояния:
+
+	$\delta \tilde{C_t} = \delta C_t * i_t * \tanh'(\tilde{C_t})$
 
 ---
 
@@ -53,8 +59,10 @@ $$
 Чтобы передать градиенты на предыдущие временные шаги:
 
 1. Градиент по $h_{t-1}$​:
+
 	$\delta h_{t-1} = (\delta i_t \cdot W_i + \delta f_t \cdot W_f + \delta o_t \cdot W_o + \delta \tilde{C_t} \cdot W_C)[:in\_len]$
 1. Градиент по $x_t$​:
+
 	$\delta x_t = (\delta i_t \cdot W_i + \delta f_t \cdot W_f + \delta o_t \cdot W_o + \delta \tilde{C_t} \cdot W_C)[in\_len:]$
 
 ---
