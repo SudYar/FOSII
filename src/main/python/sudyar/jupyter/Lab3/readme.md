@@ -1,6 +1,6 @@
 # Лабораторная 3
 ## Условия
-Написать RNN (RMLP), GRU и LSTM для прогнозирования Usage_kWh. Датасет - http://archive.ics.uci.edu/ml/datasets/Steel+Industry+Energy+Consumption+Dataset
+Написать RNN (RMLP), GRU и LSTM для прогнозирования Usage_kWh. [Датасет steel industry energy](https://archive.ics.uci.edu/dataset/851/steel+industry+energy+consumption)
 
 Гиперпараметры на Ваше усмотрение
 

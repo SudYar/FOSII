@@ -1,22 +1,25 @@
 ---
 created: 2024-11-18T02:58
-updated: 2024-11-22T19:02
----
-
-
----
-# [[]]
+updated: 2024-11-25T18:57
 ---
 
 
 ### Forward
+![img.png](imgs/lstm.png)
 
 $h_{t}=o_{t}*\tanh(C_{t})$
+
 $o_{t}= \sigma([x_{t}, h_{t-1}]\times W_{o} + b_{o})$
+
 $C_{t}=f_{t}*C_{t-1}+i_{t}*\tilde{C_t}$
+
  $i_ {t} = \sigma ( [x_{t}, h_{t-1}]\times W_{o} + b_ {i} )$
+ 
  $\tilde{C_ {t}}  =  \tanh ( [x_{t}, h_{t-1}]\times W_{o} + b_ {C})$ 
+ 
  $f_ {t} = \sigma ( [x_{t}, h_{t-1}]\times W_{o} + b_ {t} )$
+
+	Если все раскрыть, выглядит вот так (не использовал)
 
 $$
 h_t=\sigma(W_{o}[h_{t-1}, x_{t}] + b_{o}) * \tanh(
@@ -26,11 +29,9 @@ h_t=\sigma(W_{o}[h_{t-1}, x_{t}] + b_{o}) * \tanh(
   )
 $$
  
-
-
+---
 ### Backprop
 Градиент скрытого состояния:
-    
     $h_t = \frac{\partial \text{Loss}}{\partial h_t}​$
 
 
@@ -47,38 +48,23 @@ $$
 
 ---
 
-
-Для каждого из ворот (входного, забывающего, выходного и кандидата состояния) вычисляются градиенты по параметрам:
-
-1. Градиенты весов:
-	$\delta W_i = \delta i_t \cdot [h_{t-1}, x_t]^T$
-	$\delta W_f = \delta f_t \cdot [h_{t-1}, x_t]^T$
-	$\delta W_o = \delta o_t \cdot [h_{t-1}, x_t]^T$
-	$\delta W_C = \delta \tilde{C_t} \cdot [h_{t-1}, x_t]^T$
-1. Градиенты смещений:
-	$\delta b_i = \delta i_t$
-	$\delta b_f = \delta f_t$
-	$\delta b_o = \delta o_t$
-	$\delta b_C = \delta \tilde{C_t}$
-
-
-
----
-
 #### 2. Передача градиента назад
 
 Чтобы передать градиенты на предыдущие временные шаги:
 
 1. Градиент по $h_{t-1}$​:
-	$\delta h_{t-1} = (\delta i_t \cdot W_i + \delta f_t \cdot W_f + \delta o_t \cdot W_o + \delta \tilde{C_t} \cdot W_C)[:h]$
+	$\delta h_{t-1} = (\delta i_t \cdot W_i + \delta f_t \cdot W_f + \delta o_t \cdot W_o + \delta \tilde{C_t} \cdot W_C)[:in\_len]$
 1. Градиент по $x_t$​:
-	$\delta x_t = (\delta i_t \cdot W_i + \delta f_t \cdot W_f + \delta o_t \cdot W_o + \delta \tilde{C_t} \cdot W_C)[h:]$
+	$\delta x_t = (\delta i_t \cdot W_i + \delta f_t \cdot W_f + \delta o_t \cdot W_o + \delta \tilde{C_t} \cdot W_C)[in\_len:]$
 
 ---
 
 ### 3. Обновление весов
 
-  $\Delta W_? = [x_t, h_{t-1}]^T \cdot \delta_{?_t}, \quad \Delta b_? = \sum \delta_{?_t}$
-  Вместо ? подставить i, o, f, c
+Для каждого из ворот (входного, забывающего, выходного и кандидата состояния) вычисляются градиенты по параметрам:
+
+  $\Delta W_k = [x_t, h_{t-1}]^T \cdot \delta_{k_t}, \quad \Delta b_k = \sum \delta_{k_t}$
+  
+  Вместо k подставить i, o, f, c
 
 
