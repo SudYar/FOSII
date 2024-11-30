@@ -125,7 +125,7 @@ class Convolution2D(Layer):
 
     def update_params(self, learning_rate: float):
         self.kernels_col -= learning_rate * self.dW_col
-        self.bias -= self.db
+        self.bias -= learning_rate * self.db
 
 
 def im2col(input_data, filter_size, stride=1, padding=0):
