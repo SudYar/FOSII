@@ -161,6 +161,30 @@ def concat(nodes: list[Node], axis: int=-1, name='concat'):
 
     return create_node(concatenated_value, parents=nodes, grad_fn=grad_fn, name=name)
 
+#todo Сделать метод для разделения общего тензора на t узлов
+
+# def split_tenzor(node: Node, axis = -2, name='split') -> Node:
+#     """
+#     Создаёт узел, представляющий срез временного шага t из общего тензора.
+#     :param node: Узел с общим тензором [batch, seq_len, in_len].
+#     :param t: Индекс временного шага.
+#     :param name: Имя для нового узла.
+#     :return: Узел, содержащий срез [:, t, :].
+#     """
+#     # Извлечение значения для временного шага t
+#     values = [node.value[:, t, :] for t in range(node.value.shape[axis])]  # Получаем срез [:, t, :]
+#
+#     # Определяем градиент для этого среза
+#     def grad_fn(grad_output):
+#         grad_tensor = np.zeros_like(tensor.value)
+#         grad_tensor[:, t, :] = grad_output  # Градиент только для временного шага t
+#         return [grad_tensor]
+#
+#     # Создаём новый узел для временного шага t
+#     return create_node(value, parents=[tensor], grad_fn=grad_fn, name=f"{name}_t{t}")
+
+
+# Testing
 def model_forw_with_concat(input_signal_node1, past_node1, update_gate_weights1, bias_z1,
                           reset_gate_weights1, bias_r1, candidate_weights1, bias_h1):
     concat_node1 = concat([input_signal_node1, past_node1])

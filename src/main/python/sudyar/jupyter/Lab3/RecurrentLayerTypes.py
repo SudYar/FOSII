@@ -5,6 +5,7 @@ from RNNSimple import RNNSimple
 from LSTMLayer import LSTMLayer
 from GRULayer import GRULayer
 from RNN import RNN
+from src.main.python.sudyar.jupyter.Lab3.LSTM import LSTM
 from src.main.python.sudyar.jupyter.Lab3.GRU import GRU
 
 
@@ -14,6 +15,7 @@ class RecurrentLayerTypes(enum.Enum):
     GRU = "GRU"
     RNN = "RNN with graph"
     GRUgr = "GRU with graph"
+    LSTMgr = "LSTM with autograd"
 
 
 def create_layer(layer_type: RecurrentLayerTypes, **kwargs) -> Layer:
@@ -22,7 +24,8 @@ def create_layer(layer_type: RecurrentLayerTypes, **kwargs) -> Layer:
         RecurrentLayerTypes.LSTM: LSTMLayer,
         RecurrentLayerTypes.GRU: GRULayer,
         RecurrentLayerTypes.RNN: RNN,
-        RecurrentLayerTypes.GRUgr: GRU
+        RecurrentLayerTypes.GRUgr: GRU,
+        RecurrentLayerTypes.LSTMgr: LSTM
     }
     layer_class = layer_classes.get(layer_type)
 
